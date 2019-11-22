@@ -5,19 +5,31 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native
 
 const Main = () => {
 
+    // Effect hook
     useEffect(() => {
         loadProducts();
     }, []);
 
+    // States
+    const [productInfo, setProductInfo] = useState({});
     const [docs, setDocs] = useState([]);
+    const [page, setPage] = useState(1);
 
-    loadProducts = async () => {
-        const response = await api.get('/products');
+    loadProducts = async (page = 1) => {
+        const response = await api.get(`/products?page=${page}`);
 
-        const { docs } = response.data;
+        const { docsList, ...productInfo } = response.data;
 
-        setDocs(docs);
-    }
+        setDocs(docsList);
+        setProductInfo(productInfo);
+    };
+
+    const loadMore = () => {
+        if (page === productInfo.pages) return;
+
+        const pageNumber = page + 1;
+        loadProducts(pageNumber);
+    };
 
     renderItem = ({ item }) => (
         <View style={styles.productContainer}>
@@ -27,14 +39,17 @@ const Main = () => {
                 <Text style={styles.productButtonText}>Acessar</Text>
             </TouchableOpacity>
         </View>
-    )
+    );
 
     return <View style={styles.container}>
         <FlatList
             contentContainerStyle={styles.list}
             data={docs}
             keyExtractor={item => item._id}
-            renderItem={renderItem} />
+            renderItem={renderItem}
+            onEndReached={loadMore}
+            onEndReachedThreshold={0.1}
+        />
     </View>
 
 }
