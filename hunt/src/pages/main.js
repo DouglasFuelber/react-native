@@ -2,8 +2,15 @@ import React from 'react';
 
 import { View, Text } from 'react-native';
 
-export default () => {
-    <View>
-        <Text>Página Main</Text>
-    </View>
+const Main = () => {
+    
+    Main.navigationOptions = {
+        title: 'JSHunt'
+    }
+
+    return <View>
+            <Text>Página Main</Text>
+        </View>
 }
+
+export default Main
