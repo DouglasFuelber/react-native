@@ -1,17 +1,30 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
+import api from '../services/api';
 
 import { View, Text } from 'react-native';
 
-class Main extends Component {
-    static navigationOptions = {
-        title: 'JSHunt',
-    };
+const Main = () => {
 
-    render() {
-        return <View>
-            <Text>Página Main</Text>
-        </View>
+    useEffect(() => {
+        this.loadProducts();
+    }, []);
+
+    loadProducts = async () => {
+        const response = await api.get('/products');
+
+        const { docs } = response.data;
+
+        console.log(docs);
     }
+
+    return <View>
+        <Text>Página Main</Text>
+    </View>
+
 }
+
+Main.navigationOptions = {
+    title: 'JSHunt',
+};
 
 export default Main
