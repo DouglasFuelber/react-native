@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import { View, Text } from 'react-native';
 
-const Main = () => {
-    
-    Main.navigationOptions = {
-        title: 'JSHunt'
-    }
+class Main extends Component {
+    static navigationOptions = {
+        title: 'JSHunt',
+    };
 
-    return <View>
+    render() {
+        return <View>
             <Text>Página Main</Text>
         </View>
+    }
 }
 
 export default Main
